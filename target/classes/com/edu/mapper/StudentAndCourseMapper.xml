@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.edu.mapper.StudentAndCourseMapper" >
+  	<select id="selectById" parameterType="String" resultType="com.edu.pojo.Course">
+		     select course.*
+		     from course
+		     where courseID in
+		     (
+		        select courseID
+		        from selectedcourse
+		        where selectedcourse.studentID = #{id}
+		      )
+    </select>
+    
+    <select id="selectAlreadyById" parameterType="String" resultType="com.edu.pojo.CourseEx">
+		        select c.*,m.mark
+				from course c,
+				(select courseID,mark
+				from selectedcourse
+				where selectedcourse.studentID = #{id} and selectedcourse.mark != 'null') m
+				where c.courseID = m.courseID
+    </select>
+    
+     
+</mapper>

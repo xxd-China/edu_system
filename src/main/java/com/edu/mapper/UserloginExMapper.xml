@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.edu.mapper.UserloginExMapper" >
+ 
+  <update id="updateById" parameterType="com.edu.pojo.Userlogin">
+    update userlogin
+    set userID = #{userid,jdbcType=INTEGER},
+      userName = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      role = #{role,jdbcType=INTEGER}
+   where userID = #{userid,jdbcType=INTEGER}
+  </update>
+  
+  
+  <select id="getMessage" parameterType="String" resultType="com.edu.pojo.UserloginEx">
+            select userlogin.*,role.roleName
+            from userlogin left join role on role = roleID
+            where userID = #{id}
+  </select>
+  
+  <insert id="saveStudent" parameterType="Map">
+           insert into userlogin
+           values(#{userid},#{username},#{md5},"2")
+  </insert>
+  
+  <insert id="saveTeacher" parameterType="Map">
+           insert into userlogin
+           values(#{userid},#{username},#{md5},"1")
+  </insert>
+  
+   <insert id="saveAdmin" parameterType="Map">
+           insert into userlogin
+           values(#{userid},#{username},#{md5},"0")
+  </insert>
+</mapper>

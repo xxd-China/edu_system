@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.edu.mapper.CourseMapperEx">
+
+	<select id="findByPaging" parameterType="com.edu.pojo.PageBean"
+		resultType="com.edu.pojo.CourseEx">
+		select course.*, college.collegeName
+		from course, college
+		where course.collegeID = college.collegeID
+		limit #{startIndex}, #{pagesize}
+	</select>
+
+
+	<select id="findCourseByID" parameterType="int"
+		resultType="com.edu.pojo.CourseEx">
+		select course.*
+		from course
+		where teacherID = #{id}
+	</select>
+
+	<select id="findStudentGrade" parameterType="Map"
+		resultType="com.edu.pojo.SelectedCourseEx">
+		select s.*,c.studentID,c.mark,c.courseID from
+		student s,
+		(select studentID,mark,courseID
+		from selectedcourse
+		where courseID =#{id}) c
+		where s.userID = c.studentID
+		limit #{pagebean.startIndex}, #{pagebean.pagesize}
+	</select>
+
+	<select id="findCourseCount" parameterType="int" resultType="int">
+		select count(*)
+		from selectedcourse
+		WHERE courseID = #{id}
+	</select>
+
+
+	<update id="mark" parameterType="Map">
+		update selectedcourse
+		set mark = #{mark}
+		where studentID=#{studentid} and courseID=#{courseid}
+	</update>
+
+
+	<select id="findById" parameterType="Integer" resultType="com.edu.pojo.CourseEx">
+		select
+		d.*,t.userName
+		from teacher t,
+		(SELECT a.*,c.collegeName
+		from college c,
+		(select * from course WHERE courseID = #{id}) a
+		where c.collegeID = a.collegeID) d
+		where t.userID = d.teacherID
+	</select>
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.edu.mapper.StudentExMapper" >
+
+    <select id="selectByPagenum" parameterType="com.edu.pojo.PageBean" resultType="com.edu.pojo.StudentEx">
+      select student.*,college.collegeName 
+      from student LEFT JOIN college on student.collegeID = college.collegeID
+        limit #{startIndex}, #{pagesize}
+    </select>
+   
+    <update id="updateStudent" parameterType="com.edu.pojo.StudentEx">
+		update student
+        set userid = #{userid},username = #{username},sex = #{sex},birthyear = #{birthyear},degree = #{degree},title = #{title},grade = #{grade},collegeID = #{collegeID}
+        where userid=#{userid}
+	</update>
+	
+	<update id="change" parameterType="Map">
+		update userlogin
+        set password = #{password}
+        where userid=#{userid}
+	</update>
+	
+	 <select id="findAll"  resultType="com.edu.pojo.StudentEx">
+        select student.*,college.collegeName 
+        from student left join college
+        on student.collegeID = college.collegeID
+    </select>
+	
+	
+</mapper>

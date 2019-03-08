@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.edu.mapper.TeacherExMapper" >
+
+        <select id="selectAll" resultType="com.edu.pojo.TeacherEx">
+                 select userID,userName
+                 from teacher
+        </select>
+       
+         <select id="teacherCounnt" resultType="int">
+                 select count(*)
+                 from teacher
+        </select>
+        
+        <select id="findByPagenum" parameterType="com.edu.pojo.PageBean" resultType="com.edu.pojo.TeacherEx">
+                 select teacher.*,collegeName
+                 from teacher  left join college on teacher.collegeID = college.collegeID
+                 limit #{startIndex}, #{pagesize}
+        </select>
+      
+         <select id="findbyid" parameterType="int"  resultType="com.edu.pojo.TeacherEx">
+                 select * from teacher where userID = #{id}
+        </select>
+        
+        <update id="update" parameterType="com.edu.pojo.TeacherEx">
+		update teacher
+        set userid = #{userid},username = #{username},sex = #{sex},birthyear = #{birthyear},grade = #{grade},collegeid = #{collegeid}
+        where userid=#{userid}
+	    </update>
+
+	    <insert id="save" parameterType="com.edu.pojo.TeacherEx">
+    		insert into teacher values(#{userid},#{username},#{sex},#{birthyear},#{degree},#{title},#{grade},#{collegeid})
+        </insert>
+        
+        <update id="change" parameterType="Map">
+		update userlogin
+        set password = #{password}
+        where userid=#{userid}
+	    </update>
+</mapper>

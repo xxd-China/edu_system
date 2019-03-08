@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.edu.mapper.SelectedcourseExMapper">
+	<select id="findAndCheckCourse" parameterType="Map"
+		resultType="com.edu.pojo.Selectedcourse">
+		select *
+		from selectedcourse
+		where courseID = #{id} and studentId = #{userId}
+	</select>
+
+
+	<insert id="saveCourse" parameterType="java.util.Map">
+		insert into selectedcourse(courseID,studentID) values (#{id},#{userId})
+	</insert>
+
+	<delete id="removeCourse" parameterType="java.util.Map">
+		delete from selectedcourse where courseID = ${id} and studentID = ${userId}
+	</delete>
+</mapper>
